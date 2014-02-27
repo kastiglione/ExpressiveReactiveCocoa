@@ -1,4 +1,3 @@
-ExpressiveReactiveCocoa
-=======================
+# Expressive ReactiveCocoa
 
-Expressive ReactiveCocoa slides
+WIP talk on ReactiveCocoa. Feedback to make it awesome welcome.
