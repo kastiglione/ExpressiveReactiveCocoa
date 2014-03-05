@@ -465,8 +465,9 @@ RAC(self.submitButton, enabled) = [RACSignal
 Less typical, performing a search based on location:
 
 ```objectivec
-RAC(self, nearbyFriends) = [[[[[[self
-    rac_signalForSelector:@selector(locationManager:didUpdateLocations:)]
+RAC(self, nearbyFriends) = [[[[[self
+    rac_signalForSelector:@selector(locationManager:didUpdateLocations:)
+    fromProtocol:@protocol(CLLocationManagerDelegate)]
     throttle:1]
     map:^(NSArray *locations) {
         CLLocation *location = [locations lastObject];
@@ -476,10 +477,11 @@ RAC(self, nearbyFriends) = [[[[[[self
     }]
     distinctUntilChanged]
     flattenMap:^(CLLocation *location) {
-        return [APIClient searchFriendsNearbyLocation:location];
-    }]
-    doNext:^(id _) {
-        [self.tableView reloadData];
+        return [[APIClient
+            searchFriendsNearbyLocation:location];
+            doCompleted:^{
+                [self.tableView reloadData];
+            }]
     }];
 ```
 
